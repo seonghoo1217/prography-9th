@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,5 +32,14 @@ public class User extends BaseEntity {
 
     public boolean isActive() {
         return this.status == Status.ACTIVE;
+    }
+
+    public User(Integer fakerId, String name, String email, Status status, LocalDateTime createAt, LocalDateTime updateAt) {
+        this.fakerId = fakerId;
+        this.name = name;
+        this.email = email;
+        this.status = status;
+        this.createdAt = createAt;
+        this.updatedAt = updateAt;
     }
 }
