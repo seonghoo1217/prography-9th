@@ -25,7 +25,7 @@ public class User extends BaseEntity {
     private String email;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserRoom> userRooms = new ArrayList<>();
 
 
