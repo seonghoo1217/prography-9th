@@ -1,9 +1,11 @@
 package assignment.pingpong.application.room;
 
+import assignment.pingpong.domain.Exception.BadAPIRequestException;
 import assignment.pingpong.domain.repository.RoomRepository;
 import assignment.pingpong.domain.room.Room;
 import assignment.pingpong.presentation.dto.response.room.RoomPageDetailRes;
 import assignment.pingpong.presentation.dto.response.room.RoomPageRes;
+import assignment.pingpong.presentation.dto.response.room.RoomRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,4 +34,9 @@ public class RoomQueryService {
         return new RoomPageRes(roomPage.getTotalElements(), roomPage.getTotalPages(), roomList);
     }
 
+    public RoomRes findRoomById(Integer roomId) {
+        Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
+
+        return new RoomRes(room);
+    }
 }

@@ -6,6 +6,7 @@ import assignment.pingpong.global.dto.ApiResponse;
 import assignment.pingpong.presentation.dto.request.CreateRoomReq;
 import assignment.pingpong.presentation.dto.request.PageReq;
 import assignment.pingpong.presentation.dto.response.room.RoomPageRes;
+import assignment.pingpong.presentation.dto.response.room.RoomRes;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,10 @@ public class RoomController {
         return ApiResponse.of(200, "API 요청이 성공했습니다.", roomPageRes);
     }
 
-    /*@GetMapping("/{id}")
-    public ApiResponse<?> findRoomById(@PathVariable Integer roomId) {
+    @GetMapping("/{id}")
+    public ApiResponse<?> findRoomById(@PathVariable Integer id) {
+        RoomRes roomRes = roomQueryService.findRoomById(id);
 
-    }*/
+        return ApiResponse.of(200, "API 요청이 성공했습니다.", roomRes);
+    }
 }
