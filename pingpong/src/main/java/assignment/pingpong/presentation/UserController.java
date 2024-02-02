@@ -3,7 +3,7 @@ package assignment.pingpong.presentation;
 import assignment.pingpong.application.user.UserQueryService;
 import assignment.pingpong.global.dto.ApiResponse;
 import assignment.pingpong.presentation.dto.request.PageRequestDTO;
-import assignment.pingpong.presentation.dto.response.UserPageResponse;
+import assignment.pingpong.presentation.dto.response.UserPageResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +18,8 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<?> getAllUsers(@Valid PageRequestDTO pageRequestDTO) {
-        UserPageResponse userPageResponse = userQueryService.findAllUserPage(pageRequestDTO);
+        UserPageResponseDTO userPageResponseDTO = userQueryService.findAllUserPage(pageRequestDTO);
 
-        return ApiResponse.of(200, "API 요청이 성공했습니다.", userPageResponse);
+        return ApiResponse.of(200, "API 요청이 성공했습니다.", userPageResponseDTO);
     }
 }
