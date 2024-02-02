@@ -2,8 +2,8 @@ package assignment.pingpong.application.user;
 
 import assignment.pingpong.domain.repository.UserRepository;
 import assignment.pingpong.domain.user.User;
-import assignment.pingpong.presentation.dto.request.PageRequestDTO;
-import assignment.pingpong.presentation.dto.response.UserPageResponseDTO;
+import assignment.pingpong.presentation.dto.request.PageReq;
+import assignment.pingpong.presentation.dto.response.UserPageRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +21,12 @@ public class UserQueryService {
 
     private final UserRepository userRepository;
 
-    public UserPageResponseDTO findAllUserPage(PageRequestDTO pageRequestDTO) {
-        Pageable pageable = PageRequest.of(pageRequestDTO.page(), pageRequestDTO.size(), Sort.by("id"));
+    public UserPageRes findAllUserPage(PageReq pageReq) {
+        Pageable pageable = PageRequest.of(pageReq.page(), pageReq.size(), Sort.by("id"));
         Page<User> userPage = userRepository.findAll(pageable);
 
         List<User> userList = userPage.stream().toList();
 
-        return new UserPageResponseDTO(userPage.getTotalElements(), userPage.getTotalPages(), userList);
+        return new UserPageRes(userPage.getTotalElements(), userPage.getTotalPages(), userList);
     }
 }

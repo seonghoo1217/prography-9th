@@ -6,12 +6,12 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class UserPageResponseDTO {
+public class UserPageRes {
     private long totalElements;
     private int totalPages;
     private List<User> userList;
 
-    public UserPageResponseDTO(long totalElements, int totalPages, List<User> userList) {
+    public UserPageRes(long totalElements, int totalPages, List<User> userList) {
         this.totalElements = totalElements;
         this.totalPages = totalPages;
         this.userList = userList;
