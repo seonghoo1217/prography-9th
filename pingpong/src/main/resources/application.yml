@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:~/pingpong
+    url: jdbc:h2:mem:pingpong
     driverClassName: org.h2.Driver
     username: sa
     password:
