@@ -41,7 +41,8 @@ public class RoomCommandService {
 
 
     public Integer createRoom(int userId, RoomType roomType, String title) {
-        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
+        User user = findUserById(userId);
+
         if (!user.isActive()) {
             throw new BadAPIRequestException();
         }
@@ -58,9 +59,8 @@ public class RoomCommandService {
 
     @Transactional
     public ApiResponse<?> joinRoom(int roomId, int userId) {
-        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
-
-        Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
+        User user = findUserById(userId);
+        Room room = findRoomById(roomId);
 
         if (!user.isActive()) {
             throw new BadAPIRequestException();
@@ -92,11 +92,9 @@ public class RoomCommandService {
 
     @Transactional
     public ApiResponse<?> leaveRoom(int roomId, int userId) {
-        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
-
-        Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
-
-        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(BadAPIRequestException::new);
+        User user = findUserById(userId);
+        Room room = findRoomById(roomId);
+        UserRoom userRoom = findUserRoom(user, room);
 
         if (room.getRoomStatus().isProgress() || room.getRoomStatus().isFinish()) {
             throw new BadAPIRequestException();
@@ -113,15 +111,11 @@ public class RoomCommandService {
 
     @Transactional
     public ApiResponse<?> gameStartPingPong(Integer roomId, Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
-
         Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
 
         if (!room.isHost(userId) || !room.isRoomReady() || !room.getRoomStatus().isWait()) {
             throw new BadAPIRequestException();
         }
-
-//        room.getRoomStatus().updateRoomStatus(Status.PROGRESS);
 
         eventPublisher.publishEvent(new ProgressStatusEvent(roomId, Status.PROGRESS));
         return ApiResponse.of(200, "API 요청이 성공했습니다.");
@@ -129,11 +123,9 @@ public class RoomCommandService {
 
     @Transactional
     public ApiResponse<?> modifyTeam(int roomId, int userId) {
-        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
-
-        Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
-
-        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(BadAPIRequestException::new);
+        User user = findUserById(userId);
+        Room room = findRoomById(roomId);
+        UserRoom userRoom = findUserRoom(user, room);
 
         if (!room.getRoomStatus().isWait() || !room.isRoomReady()) {
             throw new BadAPIRequestException();
@@ -170,5 +162,17 @@ public class RoomCommandService {
     public void finishRoomStatus(Integer roomId) {
         Room findRoom = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
         findRoom.getRoomStatus().updateRoomStatus(Status.FINISH);
+    }
+
+    private User findUserById(int userId) {
+        return userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
+    }
+
+    private Room findRoomById(int roomId) {
+        return roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
+    }
+
+    private UserRoom findUserRoom(User user, Room room) {
+        return userRoomRepository.findByUserAndRoom(user, room).orElseThrow(BadAPIRequestException::new);
     }
 }
