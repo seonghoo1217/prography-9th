@@ -27,6 +27,16 @@ public class Room extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Enumerated(EnumType.STRING)
+    private RoomType roomType;
+
     @OneToMany(mappedBy = "room")
     private List<UserRoom> userRooms = new ArrayList<>();
+
+    public Room(String title, Integer host, Status status, RoomType roomType) {
+        this.title = title;
+        this.host = host;
+        this.status = status;
+        this.roomType = roomType;
+    }
 }

@@ -27,4 +27,9 @@ public class User extends BaseEntity {
     private Status status;
     @OneToMany(mappedBy = "user")
     private List<UserRoom> userRooms = new ArrayList<>();
+
+
+    public boolean isActive() {
+        return this.status == Status.ACTIVE;
+    }
 }
