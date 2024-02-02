@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 public enum ErrorCode {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "에러가 발생하였습니다.", Set.of()),
-    BAD_REQUEST(HttpStatus.CREATED, "불가능한 요청입니.", Set.of(BadRequestException.class));
+    BAD_REQUEST(HttpStatus.CREATED, "불가능한 요청입니다.", Set.of(BadRequestException.class));
 
     private final HttpStatusCode status;
     private final String code;
