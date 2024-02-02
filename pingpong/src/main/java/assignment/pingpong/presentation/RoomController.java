@@ -3,10 +3,7 @@ package assignment.pingpong.presentation;
 import assignment.pingpong.application.room.RoomCommandService;
 import assignment.pingpong.application.room.RoomQueryService;
 import assignment.pingpong.global.dto.ApiResponse;
-import assignment.pingpong.presentation.dto.request.CreateRoomReq;
-import assignment.pingpong.presentation.dto.request.JoinRoomReq;
-import assignment.pingpong.presentation.dto.request.LeaveRoomReq;
-import assignment.pingpong.presentation.dto.request.PageReq;
+import assignment.pingpong.presentation.dto.request.*;
 import assignment.pingpong.presentation.dto.response.room.RoomPageRes;
 import assignment.pingpong.presentation.dto.response.room.RoomRes;
 import jakarta.validation.Valid;
@@ -50,5 +47,10 @@ public class RoomController {
     @PostMapping("/out/{roomId}")
     public ApiResponse<?> leaveRoom(@PathVariable Integer roomId, @RequestBody LeaveRoomReq leaveRoomReq) {
         return roomCommandService.leaveRoom(roomId, leaveRoomReq.userId());
+    }
+
+    @PostMapping("/start/{roomId}")
+    public ApiResponse<?> startGamePingPong(@PathVariable Integer roomId, @RequestBody GameRoomReq gameRoomReq) {
+        return roomCommandService.gameStartPingPong(roomId, gameRoomReq.userId());
     }
 }

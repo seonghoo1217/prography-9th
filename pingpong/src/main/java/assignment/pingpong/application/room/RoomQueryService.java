@@ -28,7 +28,7 @@ public class RoomQueryService {
         Page<Room> roomPage = roomRepository.findAll(pageable);
 
         List<RoomPageDetailRes> roomList = roomPage.stream()
-                .map(room -> new RoomPageDetailRes(room.getId(), room.getTitle(), room.getHost(), room.getRoomType(), room.getStatus()))
+                .map(room -> new RoomPageDetailRes(room.getId(), room.getTitle(), room.getHost(), room.getRoomType(), room.getRoomStatus().getStatus()))
                 .toList();
 
         return new RoomPageRes(roomPage.getTotalElements(), roomPage.getTotalPages(), roomList);

@@ -25,42 +25,29 @@ public class Room extends BaseEntity {
     private Integer host;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @Enumerated(EnumType.STRING)
     private RoomType roomType;
 
     @OneToMany(mappedBy = "room")
     private List<UserRoom> userRooms = new ArrayList<>();
 
+    private RoomStatus roomStatus;
+
     public Room(String title, Integer host, Status status, RoomType roomType) {
         this.title = title;
         this.host = host;
-        this.status = status;
+        this.roomStatus = new RoomStatus(status);
         this.roomType = roomType;
-    }
-
-    public boolean isWait() {
-        return this.status == Status.WAIT;
     }
 
     public boolean isOverCapacity() {
         return this.userRooms.size() >= this.roomType.getCapacity();
     }
 
-    public boolean isProgress() {
-        return this.status == Status.PROGRESS;
-    }
-
-    public boolean isFinish() {
-        return this.status == Status.FINISH;
+    public boolean isRoomReady() {
+        return this.userRooms.size() == this.roomType.getCapacity();
     }
 
     public boolean isHost(int hostId) {
         return this.host == hostId;
-    }
-
-    public void updateRoomStatus(Status status) {
-        this.status = status;
     }
 }
