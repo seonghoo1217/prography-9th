@@ -47,4 +47,20 @@ public class Room extends BaseEntity {
     public boolean isOverCapacity() {
         return this.userRooms.size() >= this.roomType.getCapacity();
     }
+
+    public boolean isProgress() {
+        return this.status == Status.PROGRESS;
+    }
+
+    public boolean isFinish() {
+        return this.status == Status.FINISH;
+    }
+
+    public boolean isHost(int hostId) {
+        return this.host == hostId;
+    }
+
+    public void updateRoomStatus(Status status) {
+        this.status = status;
+    }
 }

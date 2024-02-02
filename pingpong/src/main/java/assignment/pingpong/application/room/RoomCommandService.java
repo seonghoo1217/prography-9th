@@ -68,4 +68,23 @@ public class RoomCommandService {
         return new ApiResponse(200, "API 요청이 성공했습니다.");
     }
 
+    public ApiResponse<?> leaveRoom(int roomId, int userId) {
+        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
+
+        Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
+
+        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(BadAPIRequestException::new);
+
+        if (room.isFinish() || room.isFinish()) {
+            throw new BadAPIRequestException();
+        }
+
+        if (room.isHost(userId)) {
+            room.updateRoomStatus(Status.FINISH);
+        }
+
+        userRoomRepository.delete(userRoom);
+        
+        return new ApiResponse(200, "API 요청이 성공했습니다.");
+    }
 }

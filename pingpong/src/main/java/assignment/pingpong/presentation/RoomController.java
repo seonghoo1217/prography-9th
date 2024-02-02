@@ -5,6 +5,7 @@ import assignment.pingpong.application.room.RoomQueryService;
 import assignment.pingpong.global.dto.ApiResponse;
 import assignment.pingpong.presentation.dto.request.CreateRoomReq;
 import assignment.pingpong.presentation.dto.request.JoinRoomReq;
+import assignment.pingpong.presentation.dto.request.LeaveRoomReq;
 import assignment.pingpong.presentation.dto.request.PageReq;
 import assignment.pingpong.presentation.dto.response.room.RoomPageRes;
 import assignment.pingpong.presentation.dto.response.room.RoomRes;
@@ -44,5 +45,10 @@ public class RoomController {
     @PostMapping("/attention/{roomId}")
     public ApiResponse<?> joinRoom(@PathVariable Integer roomId, @RequestBody JoinRoomReq joinRoomReq) {
         return roomCommandService.joinRoom(roomId, joinRoomReq.userId());
+    }
+
+    @PostMapping("/out/{roomId}")
+    public ApiResponse<?> leaveRoom(@PathVariable Integer roomId, @RequestBody LeaveRoomReq leaveRoomReq) {
+        return roomCommandService.leaveRoom(roomId, leaveRoomReq.userId());
     }
 }
