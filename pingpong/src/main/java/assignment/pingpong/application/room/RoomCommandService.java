@@ -75,6 +75,16 @@ public class RoomCommandService {
         }
 
         UserRoom userRoom = new UserRoom(user, room);
+
+        long redTeamCount = userRoomRepository.countByRoomAndTeam(room, Team.RED);
+        long blueTeamCount = userRoomRepository.countByRoomAndTeam(room, Team.BLUE);
+
+        if (redTeamCount > blueTeamCount) {
+            userRoom.modifyTeam(Team.BLUE);
+        } else {
+            userRoom.modifyTeam(Team.RED);
+        }
+
         userRoomRepository.save(userRoom);
 
         return new ApiResponse(200, "API 요청이 성공했습니다.");
