@@ -4,6 +4,7 @@ import assignment.pingpong.application.room.RoomCommandService;
 import assignment.pingpong.application.room.RoomQueryService;
 import assignment.pingpong.global.dto.ApiResponse;
 import assignment.pingpong.presentation.dto.request.CreateRoomReq;
+import assignment.pingpong.presentation.dto.request.JoinRoomReq;
 import assignment.pingpong.presentation.dto.request.PageReq;
 import assignment.pingpong.presentation.dto.response.room.RoomPageRes;
 import assignment.pingpong.presentation.dto.response.room.RoomRes;
@@ -38,5 +39,10 @@ public class RoomController {
         RoomRes roomRes = roomQueryService.findRoomById(id);
 
         return ApiResponse.of(200, "API 요청이 성공했습니다.", roomRes);
+    }
+
+    @PostMapping("/attention/{roomId}")
+    public ApiResponse<?> joinRoom(@PathVariable Integer roomId, @RequestBody JoinRoomReq joinRoomReq) {
+        return roomCommandService.joinRoom(roomId, joinRoomReq.userId());
     }
 }

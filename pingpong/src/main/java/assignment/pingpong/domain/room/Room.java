@@ -39,4 +39,12 @@ public class Room extends BaseEntity {
         this.status = status;
         this.roomType = roomType;
     }
+
+    public boolean isWait() {
+        return this.status == Status.WAIT;
+    }
+
+    public boolean isOverCapacity() {
+        return this.userRooms.size() >= this.roomType.getCapacity();
+    }
 }
