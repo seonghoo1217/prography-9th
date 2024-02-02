@@ -1,6 +1,6 @@
 package assignment.pingpong.application.room;
 
-import assignment.pingpong.domain.Exception.BadRequestException;
+import assignment.pingpong.domain.Exception.BadAPIRequestException;
 import assignment.pingpong.domain.repository.RoomRepository;
 import assignment.pingpong.domain.repository.UserRepository;
 import assignment.pingpong.domain.repository.UserRoomRepository;
@@ -24,13 +24,13 @@ public class RoomCommandService {
     private final UserRoomRepository userRoomRepository;
 
     public Integer createRoom(int userId, RoomType roomType, String title) {
-        User user = userRepository.findById(userId).orElseThrow(BadRequestException::new);
+        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
         if (!user.isActive()) {
-            throw new BadRequestException();
+            throw new BadAPIRequestException();
         }
 
         if (userRoomRepository.existsByUser(user)) {
-            throw new BadRequestException();
+            throw new BadAPIRequestException();
         }
 
         Room room = new Room(title, userId, Status.WAIT, roomType);
