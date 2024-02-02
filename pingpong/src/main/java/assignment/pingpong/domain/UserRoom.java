@@ -32,4 +32,8 @@ public class UserRoom {
         this.user = user;
         this.room = room;
     }
+
+    public void modifyTeam(Team modifyTeam) {
+        this.team = modifyTeam;
+    }
 }

@@ -2,6 +2,7 @@ package assignment.pingpong.application.room;
 
 import assignment.pingpong.application.room.event.ProgressStatusEvent;
 import assignment.pingpong.domain.Exception.BadAPIRequestException;
+import assignment.pingpong.domain.Team;
 import assignment.pingpong.domain.UserRoom;
 import assignment.pingpong.domain.repository.RoomRepository;
 import assignment.pingpong.domain.repository.UserRepository;
@@ -112,6 +113,29 @@ public class RoomCommandService {
 
         eventPublisher.publishEvent(new ProgressStatusEvent(roomId, Status.PROGRESS));
         return ApiResponse.of(200, "API 요청이 성공했습니다.");
+    }
+
+    public ApiResponse<?> modifyTeam(int roomId, int userId) {
+        User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
+
+        Room room = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
+
+        UserRoom userRoom = userRoomRepository.findByUserAndRoom(user, room).orElseThrow(BadAPIRequestException::new);
+
+        if (!room.getRoomStatus().isWait() || !room.isRoomReady()) {
+            throw new BadAPIRequestException();
+        }
+
+        Team oppositeTeam = userRoom.getTeam() == Team.RED ? Team.BLUE : Team.RED;
+
+        long count = userRoomRepository.countByRoomAndTeam(room, oppositeTeam);
+        if (count >= room.getRoomType().getCapacity() / 2) {
+            throw new BadAPIRequestException();
+        }
+
+        userRoom.modifyTeam(oppositeTeam);
+
+        return new ApiResponse<>(200, "API 요청이 성공했습니다.");
     }
 
     @EventListener
