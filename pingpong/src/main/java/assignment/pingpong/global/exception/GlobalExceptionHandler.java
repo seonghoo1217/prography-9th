@@ -1,8 +1,8 @@
 package assignment.pingpong.global.exception;
 
 import assignment.pingpong.global.dto.ApiResponse;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
