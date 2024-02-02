@@ -115,6 +115,7 @@ public class RoomCommandService {
         return ApiResponse.of(200, "API 요청이 성공했습니다.");
     }
 
+    @Transactional
     public ApiResponse<?> modifyTeam(int roomId, int userId) {
         User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
 
@@ -145,9 +146,14 @@ public class RoomCommandService {
 
         if (event.status() == Status.PROGRESS) {
             scheduler.schedule(() -> {
-                Room findRoom = roomRepository.findById(event.roomId()).orElseThrow(BadAPIRequestException::new);
-                findRoom.getRoomStatus().updateRoomStatus(Status.FINISH);
+                finishRoomStatus(event.roomId());
             }, 1, TimeUnit.MINUTES);
         }
+    }
+
+    @Transactional
+    public void finishRoomStatus(Integer roomId) {
+        Room findRoom = roomRepository.findById(roomId).orElseThrow(BadAPIRequestException::new);
+        findRoom.getRoomStatus().updateRoomStatus(Status.FINISH);
     }
 }
