@@ -21,7 +21,7 @@ public class UserQueryService {
 
     private final UserRepository userRepository;
 
-    public UserPageRes findAllUserPage(PageReq pageReq) {
+    public UserPageRes findAllUserByPage(PageReq pageReq) {
         Pageable pageable = PageRequest.of(pageReq.page(), pageReq.size(), Sort.by("id"));
         Page<User> userPage = userRepository.findAll(pageable);
 

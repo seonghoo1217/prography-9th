@@ -17,8 +17,8 @@ public class UserController {
     private final UserQueryService userQueryService;
 
     @GetMapping
-    public ApiResponse<?> getAllUsers(@Valid PageReq pageReq) {
-        UserPageRes userPageRes = userQueryService.findAllUserPage(pageReq);
+    public ApiResponse<?> findAllUserByPage(@Valid PageReq pageReq) {
+        UserPageRes userPageRes = userQueryService.findAllUserByPage(pageReq);
 
         return ApiResponse.of(200, "API 요청이 성공했습니다.", userPageRes);
     }
