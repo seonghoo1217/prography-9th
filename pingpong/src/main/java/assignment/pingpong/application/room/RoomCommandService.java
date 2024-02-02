@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -35,6 +36,7 @@ public class RoomCommandService {
 
     private final ApplicationEventPublisher eventPublisher;
 
+    private final TransactionTemplate transactionTemplate;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 
@@ -146,7 +148,10 @@ public class RoomCommandService {
 
         if (event.status() == Status.PROGRESS) {
             scheduler.schedule(() -> {
-                finishRoomStatus(event.roomId());
+                transactionTemplate.execute(status -> {
+                    finishRoomStatus(event.roomId());
+                    return null;
+                });
             }, 1, TimeUnit.MINUTES);
         }
     }
