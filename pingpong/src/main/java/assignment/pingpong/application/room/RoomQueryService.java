@@ -2,7 +2,8 @@ package assignment.pingpong.application.room;
 
 import assignment.pingpong.domain.repository.RoomRepository;
 import assignment.pingpong.domain.room.Room;
-import assignment.pingpong.presentation.dto.response.RoomPageRes;
+import assignment.pingpong.presentation.dto.response.room.RoomPageDetailRes;
+import assignment.pingpong.presentation.dto.response.room.RoomPageRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,8 +25,11 @@ public class RoomQueryService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id"));
         Page<Room> roomPage = roomRepository.findAll(pageable);
 
-        List<Room> roomList = roomPage.stream().toList();
+        List<RoomPageDetailRes> roomList = roomPage.stream()
+                .map(room -> new RoomPageDetailRes(room.getId(), room.getTitle(), room.getHost(), room.getRoomType(), room.getStatus()))
+                .toList();
 
         return new RoomPageRes(roomPage.getTotalElements(), roomPage.getTotalPages(), roomList);
     }
+
 }

@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:pingpong
+    url: jdbc:h2:~/pingpong
     driverClassName: org.h2.Driver
     username: sa
-    password: password
+    password:
   h2:
     console:
       enabled: true

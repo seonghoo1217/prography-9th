@@ -3,7 +3,7 @@ package assignment.pingpong.presentation;
 import assignment.pingpong.application.user.UserQueryService;
 import assignment.pingpong.global.dto.ApiResponse;
 import assignment.pingpong.presentation.dto.request.PageReq;
-import assignment.pingpong.presentation.dto.response.UserPageRes;
+import assignment.pingpong.presentation.dto.response.user.UserPageRes;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
