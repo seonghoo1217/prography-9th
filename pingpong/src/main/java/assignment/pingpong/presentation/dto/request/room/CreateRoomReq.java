@@ -1,4 +1,4 @@
-package assignment.pingpong.presentation.dto.request;
+package assignment.pingpong.presentation.dto.request.room;
 
 import assignment.pingpong.domain.room.RoomType;
 
