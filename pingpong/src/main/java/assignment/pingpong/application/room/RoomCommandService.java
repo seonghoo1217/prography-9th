@@ -53,6 +53,7 @@ public class RoomCommandService {
         return room.getId();
     }
 
+    @Transactional
     public ApiResponse<?> joinRoom(int roomId, int userId) {
         User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
 
@@ -76,6 +77,7 @@ public class RoomCommandService {
         return new ApiResponse(200, "API 요청이 성공했습니다.");
     }
 
+    @Transactional
     public ApiResponse<?> leaveRoom(int roomId, int userId) {
         User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
 
@@ -96,6 +98,7 @@ public class RoomCommandService {
         return new ApiResponse(200, "API 요청이 성공했습니다.");
     }
 
+    @Transactional
     public ApiResponse<?> gameStartPingPong(Integer roomId, Integer userId) {
         User user = userRepository.findById(userId).orElseThrow(BadAPIRequestException::new);
 
